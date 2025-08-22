@@ -18,7 +18,7 @@
 
 <img src="assets/preview.gif" alt="DNS Changer by EXLOUD aka BOBER" width="600" height="400">
 
-![License](http://www.wtfpl.net/download/wtfpl-badge-3/)
+![License](https://img.shields.io/badge/license-WTFPL-green.svg)
 ![PowerShell](https://img.shields.io/badge/PowerShell-5%2B-blue.svg)
 ![Windows](https://img.shields.io/badge/Windows-7%2F8%2F10%2F11-blue.svg)
 ![DNS](https://img.shields.io/badge/DNS-Universal-orange.svg)
@@ -265,5 +265,6 @@ If you encounter any issues:
 **Made with ❤️ by [EXLOUD](https://github.com/EXLOUD)**
 
 *Simplifying DNS configuration across all Windows versions, one click at a time.*
+
 
 </div>
