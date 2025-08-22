@@ -39,6 +39,9 @@ A comprehensive PowerShell-based DNS configuration tool with interactive network
 - **Provider identification**: Automatically identifies current DNS provider
 - **Safe execution**: Comprehensive error handling and validation
 
+
+<div align="center">
+   
 ## 🌐 Supported DNS Providers
 
 ### Security & Privacy Focused
@@ -63,6 +66,8 @@ A comprehensive PowerShell-based DNS configuration tool with interactive network
 | **Google DNS** | 8.8.8.8 | 8.8.4.4 | Fast, Reliable |
 | **Control D** | 76.76.19.19 | 76.76.2.22 | Custom filtering |
 | **Comodo Secure DNS** | 8.26.56.26 | 8.20.247.20 | Security focused |
+
+</div>
 
 ## 🛠️ Installation & Usage
 
@@ -268,3 +273,4 @@ If you encounter any issues:
 
 
 </div>
+
