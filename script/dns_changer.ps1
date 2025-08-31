@@ -330,7 +330,7 @@ $gbCurrent.Controls.Add($txtCurrentSettings)
 $gbProvider = New-Object System.Windows.Forms.GroupBox
 $gbProvider.Text = "DNS Provider Selection"
 $gbProvider.Location = New-Object System.Drawing.Point(10, 280)
-$gbProvider.Size = New-Object System.Drawing.Size(740, 135)
+$gbProvider.Size = New-Object System.Drawing.Size(740, 165)
 $gbProvider.Font = New-Object System.Drawing.Font("Segoe UI", 10, [System.Drawing.FontStyle]::Bold)
 $tabConfig.Controls.Add($gbProvider)
 
@@ -466,7 +466,7 @@ $tabConfig.Controls.Add($pnlActions)
 
 $btnApply = New-Object System.Windows.Forms.Button
 $btnApply.Text = "Apply Settings"
-$btnApply.Location = New-Object System.Drawing.Point(120, 10)
+$btnApply.Location = New-Object System.Drawing.Point(120, 35)
 $btnApply.Size = New-Object System.Drawing.Size(150, 40)
 $btnApply.Font = New-Object System.Drawing.Font("Segoe UI", 11, [System.Drawing.FontStyle]::Bold)
 $btnApply.BackColor = $successColor
@@ -476,7 +476,7 @@ $pnlActions.Controls.Add($btnApply)
 
 $btnReset = New-Object System.Windows.Forms.Button
 $btnReset.Text = "Reset to DHCP"
-$btnReset.Location = New-Object System.Drawing.Point(300, 10)
+$btnReset.Location = New-Object System.Drawing.Point(300, 35)
 $btnReset.Size = New-Object System.Drawing.Size(150, 40)
 $btnReset.Font = New-Object System.Drawing.Font("Segoe UI", 11)
 $btnReset.BackColor = $warningColor
@@ -486,7 +486,7 @@ $pnlActions.Controls.Add($btnReset)
 
 $btnTest = New-Object System.Windows.Forms.Button
 $btnTest.Text = "Test DNS"
-$btnTest.Location = New-Object System.Drawing.Point(480, 10)
+$btnTest.Location = New-Object System.Drawing.Point(480, 35)
 $btnTest.Size = New-Object System.Drawing.Size(120, 40)
 $btnTest.Font = New-Object System.Drawing.Font("Segoe UI", 11)
 $btnTest.BackColor = $primaryColor
