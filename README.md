@@ -2,7 +2,7 @@
 
 ### 🔽
 
-[![Download My Script](https://img.shields.io/badge/Download_This_Script-darkgreen?style=for-the-badge&logo=powershell&logoColor=white)](https://github.com/EXLOUD/DNS-Changer/archive/refs/heads/main.zip)
+[![Download My Script](https://img.shields.io/badge/Download_This_Script-darkgreen?style=for-the-badge&logo=powershell&logoColor=white)](https://github.com/EXLOUD/DNS-Configurator/archive/refs/heads/main.zip)
 
 ---
 
@@ -273,4 +273,5 @@ If you encounter any issues:
 
 
 </div>
+
 
