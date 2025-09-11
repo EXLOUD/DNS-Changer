@@ -7,11 +7,8 @@
 
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
+Add-Type -AssemblyName Microsoft.VisualBasic
 [System.Windows.Forms.Application]::EnableVisualStyles()
-
-# ════════════════════════════════════════════════════════════════════
-# CONFIGURATION SECTION
-# ════════════════════════════════════════════════════════════════════
 
 # DNS Providers Database
 $script:dnsProviders = @{
@@ -248,10 +245,10 @@ $titleLabel.Location = New-Object System.Drawing.Point(20, 12)
 $titlePanel.Controls.Add($titleLabel)
 
 $versionLabel = New-Object System.Windows.Forms.Label
-$versionLabel.Text = "v1.1.2"
+$versionLabel.Text = "v1.2"
 $versionLabel.Font = New-Object System.Drawing.Font("Segoe UI", 15, [System.Drawing.FontStyle]::Bold)
 $versionLabel.ForeColor = [System.Drawing.Color]::White
-$versionLabel.Location = New-Object System.Drawing.Point(680, 15)
+$versionLabel.Location = New-Object System.Drawing.Point(720, 15)
 $titlePanel.Controls.Add($versionLabel)
 
 # Tab Control
@@ -371,7 +368,7 @@ $chkBackup.Font = New-Object System.Drawing.Font("Segoe UI", 10)
 $chkBackup.Checked = $true
 $gbProvider.Controls.Add($chkBackup)
 
-# Custom DNS Panel - ОНОВЛЕНА ВЕРСІЯ З IPv6
+# Custom DNS Panel
 $pnlCustom = New-Object System.Windows.Forms.Panel
 $pnlCustom.Location = New-Object System.Drawing.Point(10, 95)
 $pnlCustom.Size = New-Object System.Drawing.Size(720, 75)
@@ -397,7 +394,6 @@ $txtIPv4Primary = New-Object System.Windows.Forms.TextBox
 $txtIPv4Primary.Location = New-Object System.Drawing.Point(105, 3)
 $txtIPv4Primary.Size = New-Object System.Drawing.Size(130, 25)
 $txtIPv4Primary.Font = New-Object System.Drawing.Font("Segoe UI", 10)
-$txtIPv4Primary.PlaceholderText = "e.g. 8.8.8.8"
 $pnlCustom.Controls.Add($txtIPv4Primary)
 
 $lblIPv4Secondary = New-Object System.Windows.Forms.Label
@@ -411,7 +407,6 @@ $txtIPv4Secondary = New-Object System.Windows.Forms.TextBox
 $txtIPv4Secondary.Location = New-Object System.Drawing.Point(320, 3)
 $txtIPv4Secondary.Size = New-Object System.Drawing.Size(130, 25)
 $txtIPv4Secondary.Font = New-Object System.Drawing.Font("Segoe UI", 10)
-$txtIPv4Secondary.PlaceholderText = "e.g. 8.8.4.4"
 $pnlCustom.Controls.Add($txtIPv4Secondary)
 
 # IPv6 Controls
@@ -433,7 +428,8 @@ $txtIPv6Primary = New-Object System.Windows.Forms.TextBox
 $txtIPv6Primary.Location = New-Object System.Drawing.Point(105, 36)
 $txtIPv6Primary.Size = New-Object System.Drawing.Size(250, 25)
 $txtIPv6Primary.Font = New-Object System.Drawing.Font("Segoe UI", 10)
-$txtIPv6Primary.PlaceholderText = "e.g. 2001:4860:4860::8888"
+$ttIPv6Primary = New-Object System.Windows.Forms.ToolTip
+$ttIPv6Primary.SetToolTip($txtIPv6Primary, "e.g. 2001:4860:4860::8888")
 $pnlCustom.Controls.Add($txtIPv6Primary)
 
 $lblIPv6Secondary = New-Object System.Windows.Forms.Label
@@ -447,13 +443,14 @@ $txtIPv6Secondary = New-Object System.Windows.Forms.TextBox
 $txtIPv6Secondary.Location = New-Object System.Drawing.Point(440, 36)
 $txtIPv6Secondary.Size = New-Object System.Drawing.Size(250, 25)
 $txtIPv6Secondary.Font = New-Object System.Drawing.Font("Segoe UI", 10)
-$txtIPv6Secondary.PlaceholderText = "e.g. 2001:4860:4860::8844"
+$ttIPv6Secondary = New-Object System.Windows.Forms.ToolTip
+$ttIPv6Secondary.SetToolTip($txtIPv6Secondary, "e.g. 2001:4860:4860::8844")
 $pnlCustom.Controls.Add($txtIPv6Secondary)
 
 $lblCustomNote = New-Object System.Windows.Forms.Label
 $lblCustomNote.Text = "(Optional: Leave IPv6 fields empty to skip IPv6 configuration)"
 $lblCustomNote.Location = New-Object System.Drawing.Point(460, 2)
-$lblCustomNote.Size = New-Object System.Drawing.Size(250, 29)
+$lblCustomNote.Size = New-Object System.Drawing.Size(260, 29)  # ✅ FIXED: Increased width
 $lblCustomNote.Font = New-Object System.Drawing.Font("Segoe UI", 8, [System.Drawing.FontStyle]::Italic)
 $lblCustomNote.ForeColor = [System.Drawing.Color]::Gray
 $pnlCustom.Controls.Add($lblCustomNote)
@@ -743,19 +740,19 @@ function Initialize-DNSProviders {
     $cmbProvider.Items.Clear()
     $cmbProvider.Items.Add("-- Select Provider --")
     $cmbProvider.Items.Add("Automatic (DHCP)")
-    $cmbProvider.Items.Add("─────────────────────")
+    $cmbProvider.Items.Add("---------------------")
     
-    # Security & Privacy Focused
-    $cmbProvider.Items.Add("▼ Security & Privacy")
+    # Security and Privacy Focused
+    $cmbProvider.Items.Add("> Security and Privacy")
     $cmbProvider.Items.Add("  Cloudflare DNS")
     $cmbProvider.Items.Add("  Cloudflare (Malware Blocking)")
     $cmbProvider.Items.Add("  Quad9 DNS")
     $cmbProvider.Items.Add("  AdGuard DNS")
     $cmbProvider.Items.Add("  NextDNS")
-    $cmbProvider.Items.Add("─────────────────────")
+    $cmbProvider.Items.Add("---------------------")
     
-    # Family & Content Filtering
-    $cmbProvider.Items.Add("▼ Family Protection")
+    # Family and Content Filtering
+    $cmbProvider.Items.Add("> Family Protection")
     $cmbProvider.Items.Add("  CleanBrowsing (Family)")
     $cmbProvider.Items.Add("  CleanBrowsing (Adult Filter)")
     $cmbProvider.Items.Add("  CleanBrowsing (Security)")
@@ -763,22 +760,22 @@ function Initialize-DNSProviders {
     $cmbProvider.Items.Add("  OpenDNS (FamilyShield)")
     $cmbProvider.Items.Add("  Cloudflare (Family)")
     $cmbProvider.Items.Add("  AdGuard DNS (Family)")
-    $cmbProvider.Items.Add("─────────────────────")
+    $cmbProvider.Items.Add("---------------------")
     
-    # Traditional & Performance
-    $cmbProvider.Items.Add("▼ Traditional DNS")
+    # Traditional and Performance
+    $cmbProvider.Items.Add("> Traditional DNS")
     $cmbProvider.Items.Add("  Google DNS")
     $cmbProvider.Items.Add("  Control D")
     $cmbProvider.Items.Add("  Comodo Secure DNS")
-    $cmbProvider.Items.Add("─────────────────────")
+    $cmbProvider.Items.Add("---------------------")
     
     # Additional
-    $cmbProvider.Items.Add("▼ Other Providers")
+    $cmbProvider.Items.Add("> Other Providers")
     $cmbProvider.Items.Add("  DNS.Watch")
     $cmbProvider.Items.Add("  Alternate DNS")
     $cmbProvider.Items.Add("  Quad9 (No Filtering)")
     $cmbProvider.Items.Add("  AdGuard DNS (Non-filtering)")
-    $cmbProvider.Items.Add("─────────────────────")
+    $cmbProvider.Items.Add("---------------------")
     
     $cmbProvider.Items.Add("Custom DNS")
     $cmbProvider.SelectedIndex = 0
@@ -797,15 +794,13 @@ function Update-CurrentSettings {
         $settings = "Adapter: $adapterName`r`n"
         $settings += "========================================`r`n"
         
-        if ($currentV4) {
+        if ($currentV4 -and $currentV4.ServerAddresses.Count -gt 0) {  # ✅ FIXED: Added null check
             $providerV4 = Get-DNSProviderName -ServerAddresses $currentV4.ServerAddresses -AddressFamily IPv4
             $settings += "IPv4 Provider: $providerV4`r`n"
-            
-            if ($currentV4.ServerAddresses.Count -gt 0) {
-                $settings += "IPv4 Servers: $($currentV4.ServerAddresses -join ', ')`r`n"
-            } else {
-                $settings += "IPv4 Servers: Automatic (DHCP)`r`n"
-            }
+            $settings += "IPv4 Servers: $($currentV4.ServerAddresses -join ', ')`r`n"
+        } else {
+            $settings += "IPv4 Provider: Automatic (DHCP)`r`n"
+            $settings += "IPv4 Servers: Automatic (DHCP)`r`n"
         }
         
         $settings += "`r`n"
@@ -879,7 +874,8 @@ $cmbAdapter.Add_SelectedIndexChanged({
 $cmbProvider.Add_SelectedIndexChanged({
     $selectedItem = $cmbProvider.SelectedItem.ToString()
 
-    if ($selectedItem -match "^─+$" -or $selectedItem -match "^▼") {
+    # ✅ FIXED: Added IsNullOrWhiteSpace check
+    if ([string]::IsNullOrWhiteSpace($selectedItem) -or $selectedItem -match "^-+$" -or $selectedItem -match "^>") {
         $cmbProvider.SelectedIndex = 0
         return
     }
@@ -895,11 +891,9 @@ $cmbProvider.Add_SelectedIndexChanged({
     if ($selectedProvider -eq "Custom DNS") {
         $lblDescription.Text = "Enter custom DNS server addresses"
         $pnlCustom.Visible = $true
-        # Clear custom fields when switching to another provider
     } elseif ($selectedProvider -eq "Automatic (DHCP)") {
         $lblDescription.Text = "Use automatic DNS from DHCP"
         $pnlCustom.Visible = $false
-        # Clear custom fields
         $txtIPv4Primary.Clear()
         $txtIPv4Secondary.Clear()
         $txtIPv6Primary.Clear()
@@ -907,7 +901,6 @@ $cmbProvider.Add_SelectedIndexChanged({
     } elseif ($script:dnsProviders.ContainsKey($selectedProvider)) {
         $lblDescription.Text = $script:dnsProviders[$selectedProvider].Description
         $pnlCustom.Visible = $false
-        # Clear custom fields
         $txtIPv4Primary.Clear()
         $txtIPv4Secondary.Clear()
         $txtIPv6Primary.Clear()
@@ -965,7 +958,7 @@ $btnApply.Add_Click({
     }
     
     $result = [System.Windows.Forms.MessageBox]::Show(
-        "Apply DNS settings to $adapterName`?`n`nProvider: $selectedProvider", 
+        "Apply DNS settings to $adapterName?`n`nProvider: $selectedProvider", 
         "Confirm", 
         [System.Windows.Forms.MessageBoxButtons]::YesNo, 
         [System.Windows.Forms.MessageBoxIcon]::Question
@@ -987,13 +980,17 @@ $btnApply.Add_Click({
         }
         
         Show-Progress -Value 40 -Status "Applying DNS settings..."
-        
+
+        # ✅ FIXED: Get interface index for netsh commands
+        $adapterObj = Get-NetAdapter | Where-Object { $_.Name -eq $adapterName }
+        $ifIndex = $adapterObj.ifIndex
+
         # Apply settings based on selection
         if ($selectedProvider -eq "Automatic (DHCP)") {
             Set-DnsClientServerAddress -InterfaceAlias $adapterName -ResetServerAddresses
             
             if ($chkIPv6.Checked) {
-                netsh interface ipv6 set dnsservers "$adapterName" dhcp | Out-Null
+                netsh interface ipv6 set dnsservers $ifIndex dhcp | Out-Null  # ✅ FIXED: Use index
             }
         } elseif ($selectedProvider -eq "Custom DNS") {
             # Apply IPv4
@@ -1005,18 +1002,16 @@ $btnApply.Add_Click({
             
             # Apply IPv6 if provided and checkbox is checked
             if ($chkIPv6.Checked -and -not [string]::IsNullOrWhiteSpace($txtIPv6Primary.Text)) {
-                netsh interface ipv6 set dnsservers "$adapterName" static $txtIPv6Primary.Text primary | Out-Null
-                
+                netsh interface ipv6 set dnsservers $ifIndex static $txtIPv6Primary.Text primary | Out-Null  # ✅ FIXED
                 if (-not [string]::IsNullOrWhiteSpace($txtIPv6Secondary.Text)) {
-                    netsh interface ipv6 add dnsservers "$adapterName" $txtIPv6Secondary.Text index=2 | Out-Null
+                    netsh interface ipv6 add dnsservers $ifIndex $txtIPv6Secondary.Text index=2 | Out-Null  # ✅ FIXED
                 }
-            } elseif ($chkIPv6.Checked -and [string]::IsNullOrWhiteSpace($txtIPv6Primary.Text)) {
+            } elseif ($chkIPv6.Checked) {
                 # Reset IPv6 to automatic if no custom IPv6 provided
-                netsh interface ipv6 set dnsservers "$adapterName" dhcp | Out-Null
+                netsh interface ipv6 set dnsservers $ifIndex dhcp | Out-Null  # ✅ FIXED
             }
         } else {
             $selectedProvider = $selectedProvider.TrimStart()
-            
             $providerData = $script:dnsProviders[$selectedProvider]
             
             if ($providerData -and $providerData.IPv4.Count -gt 0) {
@@ -1024,13 +1019,13 @@ $btnApply.Add_Click({
             }
             
             if ($chkIPv6.Checked -and $providerData -and $providerData.IPv6.Count -gt 0 -and $providerData.IPv6[0] -ne "") {
-                netsh interface ipv6 set dnsservers "$adapterName" static $providerData.IPv6[0] primary | Out-Null
+                netsh interface ipv6 set dnsservers $ifIndex static $providerData.IPv6[0] primary | Out-Null  # ✅ FIXED
                 if ($providerData.IPv6.Count -gt 1 -and $providerData.IPv6[1] -ne "") {
-                    netsh interface ipv6 add dnsservers "$adapterName" $providerData.IPv6[1] index=2 | Out-Null
+                    netsh interface ipv6 add dnsservers $ifIndex $providerData.IPv6[1] index=2 | Out-Null  # ✅ FIXED
                 }
             } elseif ($chkIPv6.Checked) {
                 # Reset IPv6 to automatic if provider doesn't have IPv6
-                netsh interface ipv6 set dnsservers "$adapterName" dhcp | Out-Null
+                netsh interface ipv6 set dnsservers $ifIndex dhcp | Out-Null  # ✅ FIXED
             }
         }
         
@@ -1074,9 +1069,13 @@ $btnReset.Add_Click({
     }
     
     $adapterName = $cmbAdapter.SelectedItem.ToString().Split(' - ')[0]
-    
+
+    # ✅ FIXED: Get interface index
+    $adapterObj = Get-NetAdapter | Where-Object { $_.Name -eq $adapterName }
+    $ifIndex = $adapterObj.ifIndex
+
     $result = [System.Windows.Forms.MessageBox]::Show(
-        "Reset DNS settings to automatic (DHCP) for $adapterName`?", 
+        "Reset DNS settings to automatic (DHCP) for $adapterName?", 
         "Confirm", 
         [System.Windows.Forms.MessageBoxButtons]::YesNo, 
         [System.Windows.Forms.MessageBoxIcon]::Question
@@ -1086,7 +1085,7 @@ $btnReset.Add_Click({
     
     try {
         Set-DnsClientServerAddress -InterfaceAlias $adapterName -ResetServerAddresses
-        netsh interface ipv6 set dnsservers "$adapterName" dhcp | Out-Null
+        netsh interface ipv6 set dnsservers $ifIndex dhcp | Out-Null 
         Clear-DnsClientCache
         
         Update-CurrentSettings
@@ -1124,9 +1123,9 @@ $btnTest.Add_Click({
         $currentDNS = Get-DnsClientServerAddress -InterfaceAlias $adapterName -AddressFamily IPv4
         $testResults = ""
         
-        if ($currentDNS.ServerAddresses.Count -eq 0) {
+        if ($currentDNS -and $currentDNS.ServerAddresses.Count -eq 0) {  # ✅ FIXED: Null check
             $testResults = "No DNS servers configured (using automatic)`n"
-        } else {
+        } elseif ($currentDNS) {
             foreach ($server in $currentDNS.ServerAddresses) {
                 try {
                     $result = Resolve-DnsName -Name "google.com" -Server $server -ErrorAction Stop -QuickTimeout
@@ -1214,7 +1213,11 @@ $btnRestoreBackup.Add_Click({
     $selectedRow = $dgvBackups.SelectedRows[0]
     $backupPath = $selectedRow.Cells["FilePath"].Value
     $adapterName = $cmbAdapter.SelectedItem.ToString().Split(' - ')[0]
-    
+
+    # ✅ FIXED: Get interface index
+    $adapterObj = Get-NetAdapter | Where-Object { $_.Name -eq $adapterName }
+    $ifIndex = $adapterObj.ifIndex
+
     $result = [System.Windows.Forms.MessageBox]::Show(
         "Restore DNS settings from this backup?", 
         "Confirm Restore", 
@@ -1236,12 +1239,12 @@ $btnRestoreBackup.Add_Click({
         
         # Restore IPv6
         if ($backup.IPv6.ServerAddresses.Count -gt 0) {
-            netsh interface ipv6 set dnsservers "$adapterName" static $backup.IPv6.ServerAddresses[0] primary | Out-Null
+            netsh interface ipv6 set dnsservers $ifIndex static $backup.IPv6.ServerAddresses[0] primary | Out-Null  # ✅ FIXED
             if ($backup.IPv6.ServerAddresses.Count -gt 1) {
-                netsh interface ipv6 add dnsservers "$adapterName" $backup.IPv6.ServerAddresses[1] index=2 | Out-Null
+                netsh interface ipv6 add dnsservers $ifIndex $backup.IPv6.ServerAddresses[1] index=2 | Out-Null  # ✅ FIXED
             }
         } else {
-            netsh interface ipv6 set dnsservers "$adapterName" dhcp | Out-Null
+            netsh interface ipv6 set dnsservers $ifIndex dhcp | Out-Null  # ✅ FIXED
         }
         
         Clear-DnsClientCache
@@ -1330,7 +1333,6 @@ $btnPingTest.Add_Click({
 })
 
 $btnDNSLookup.Add_Click({
-    Add-Type -AssemblyName Microsoft.VisualBasic
     $domain = [Microsoft.VisualBasic.Interaction]::InputBox("Enter domain to lookup:", "DNS Lookup", "google.com")
     
     if ([string]::IsNullOrWhiteSpace($domain)) { return }
@@ -1388,6 +1390,18 @@ $form.Add_Load({
         [System.Windows.Forms.MessageBox]::Show(
             "This application requires Administrator privileges.`nPlease run as Administrator.", 
             "Administrator Required", 
+            [System.Windows.Forms.MessageBoxButtons]::OK, 
+            [System.Windows.Forms.MessageBoxIcon]::Error
+        )
+        $form.Close()
+        return
+    }
+
+    # Check for required modules (Windows 8+)
+    if (-not (Get-Command Get-NetAdapter -ErrorAction SilentlyContinue)) {
+        [System.Windows.Forms.MessageBox]::Show(
+            "Required PowerShell modules not available. Requires Windows 8 or later.", 
+            "Error", 
             [System.Windows.Forms.MessageBoxButtons]::OK, 
             [System.Windows.Forms.MessageBoxIcon]::Error
         )
